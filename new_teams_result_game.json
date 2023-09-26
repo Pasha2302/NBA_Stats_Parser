@@ -1,0 +1,38 @@
+[
+    {
+        "home_team": {
+            "name": "Chicago Bulls",
+            "coeff": "3.80",
+            "team_id": "3409/"
+        },
+        "away_team": {
+            "name": "Milwaukee Bucks",
+            "coeff": "1.35",
+            "team_id": "3410/"
+        }
+    },
+    {
+        "home_team": {
+            "name": "Minnesota Timberwolves",
+            "coeff": "1.80",
+            "team_id": "3426/"
+        },
+        "away_team": {
+            "name": "Washington Wizards",
+            "coeff": "2.20",
+            "team_id": "3431/"
+        }
+    },
+    {
+        "home_team": {
+            "name": "Phoenix Suns",
+            "coeff": "2.10",
+            "team_id": "3416/"
+        },
+        "away_team": {
+            "name": "LA Clippers",
+            "coeff": "2.20",
+            "team_id": "3425/"
+        }
+    }
+]

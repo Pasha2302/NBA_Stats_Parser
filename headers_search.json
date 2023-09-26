@@ -1,0 +1,114 @@
+[
+    {
+        "header": "Offense Home",
+        "url": "https://www.nba.com/stats/teams/advanced?Location=Home&dir=A&sort=OFF_RATING"
+    },
+    {
+        "header": "Defense Home",
+        "url": "https://www.nba.com/stats/teams/advanced?Location=Home&dir=A&sort=DEF_RATING"
+    },
+    {
+        "header": "Pace Home",
+        "url": "https://www.nba.com/stats/teams/advanced?Location=Home&dir=A&sort=PACE"
+    },
+    {
+        "header": "2P% Home",
+        "url": "https://www.nba.com/stats/teams/scoring?Location=Home&dir=A&sort=PCT_PTS_2PT"
+    },
+    {
+        "header": "3P% Home",
+        "url": "https://www.nba.com/stats/teams/scoring?Location=Home&dir=A&sort=PCT_PTS_3PT"
+    },
+    {
+        "header": "2P Def Home",
+        "url": "https://www.nba.com/stats/teams/defense-dash-2pt?dir=A&sort=FG2_PCT&Location=Home"
+    },
+    {
+        "header": "3P Def Home",
+        "url": "https://www.nba.com/stats/teams/opponent?Location=Home&dir=A&sort=OPP_FG3_PCT"
+    },
+    {
+        "header": "1st QT Margin Home",
+        "url": "https://www.nba.com/stats/teams/traditional?Location=Home&Period=1&dir=A&sort=PLUS_MINUS"
+    },
+    {
+        "header": "2nd QT Margin Home",
+        "url": "https://www.nba.com/stats/teams/traditional?Location=Home&Period=2&dir=A&sort=PLUS_MINUS"
+    },
+    {
+        "header": "3rd QT Margin Home",
+        "url": "https://www.nba.com/stats/teams/traditional?Location=Home&Period=3&dir=A&sort=PLUS_MINUS"
+    },
+    {
+        "header": "4th QT Margin Home",
+        "url": "https://www.nba.com/stats/teams/traditional?Location=Home&Period=4&dir=A&sort=PLUS_MINUS"
+    },
+    {
+        "header": "Bench Home",
+        "url": "https://www.nba.com/stats/teams/advanced?Location=Home&StarterBench=Bench&dir=A&sort=NET_RATING"
+    },
+    {
+        "header": "Win % Home",
+        "url": "https://www.nba.com/stats/teams/traditional?Location=Home&dir=A&sort=W_PCT"
+    },
+    {
+        "header": "Standings Home",
+        "url": "https://www.nba.com/stats/teams/traditional?Location=Home&dir=A&sort=W_PCT"
+    },
+    {
+        "header": "Offense Away",
+        "url": "https://www.nba.com/stats/teams/advanced?Location=Road&dir=A&sort=OFF_RATING"
+    },
+    {
+        "header": "Defense Away",
+        "url": "https://www.nba.com/stats/teams/advanced?Location=Road&dir=A&sort=DEF_RATING"
+    },
+    {
+        "header": "Pace Away",
+        "url": "https://www.nba.com/stats/teams/advanced?Location=Road&dir=A&sort=PACE"
+    },
+    {
+        "header": "2P% Away",
+        "url": "https://www.nba.com/stats/teams/scoring?Location=Road&dir=A&sort=PCT_PTS_2PT"
+    },
+    {
+        "header": "3P% Away",
+        "url": "https://www.nba.com/stats/teams/scoring?Location=Road&dir=A&sort=PCT_PTS_3PT"
+    },
+    {
+        "header": "2P Def Away",
+        "url": "https://www.nba.com/stats/teams/defense-dash-2pt?dir=A&sort=FG2_PCT&Location=Road"
+    },
+    {
+        "header": "3P Def Away",
+        "url": "https://www.nba.com/stats/teams/opponent?Location=Road&dir=A&sort=OPP_FG3_PCT"
+    },
+    {
+        "header": "1st QT Margin Away",
+        "url": "https://www.nba.com/stats/teams/traditional?Location=Road&Period=1&dir=A&sort=PLUS_MINUS"
+    },
+    {
+        "header": "2nd QT Margin Away",
+        "url": "https://www.nba.com/stats/teams/traditional?Location=Road&Period=2&dir=A&sort=PLUS_MINUS"
+    },
+    {
+        "header": "3rd QT Margin Away",
+        "url": "https://www.nba.com/stats/teams/traditional?Location=Road&Period=3&dir=A&sort=PLUS_MINUS"
+    },
+    {
+        "header": "4th QT Margin Away",
+        "url": "https://www.nba.com/stats/teams/traditional?Location=Road&Period=4&dir=A&sort=PLUS_MINUS"
+    },
+    {
+        "header": "Bench Away",
+        "url": "https://www.nba.com/stats/teams/advanced?Location=Road&StarterBench=Bench&dir=A&sort=NET_RATING"
+    },
+    {
+        "header": "Win % Away",
+        "url": "https://www.nba.com/stats/teams/traditional?Location=Road&dir=A&sort=W_PCT"
+    },
+    {
+        "header": "Standings Away",
+        "url": "https://www.nba.com/stats/teams/traditional?Location=Road&dir=A&sort=W_PCT"
+    }
+]

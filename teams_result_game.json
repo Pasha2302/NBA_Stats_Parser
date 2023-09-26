@@ -1,0 +1,38 @@
+[
+    {
+        "team_1": {
+            "name": "Chicago Bulls",
+            "team_id": "3409/",
+            "five_results": "L,L,L,L,L"
+        },
+        "team_2": {
+            "name": "Milwaukee Bucks",
+            "team_id": "3410/",
+            "five_results": "W,W,W,W,W"
+        }
+    },
+    {
+        "team_1": {
+            "name": "Minnesota Timberwolves",
+            "team_id": "3426/",
+            "five_results": "W,L,W,L,W"
+        },
+        "team_2": {
+            "name": "Washington Wizards",
+            "team_id": "3431/",
+            "five_results": "L,W,W,L,W"
+        }
+    },
+    {
+        "team_1": {
+            "name": "Phoenix Suns",
+            "team_id": "3416/",
+            "five_results": "W,W,L,W,W"
+        },
+        "team_2": {
+            "name": "LA Clippers",
+            "team_id": "3425/",
+            "five_results": "W,W,L,L,W"
+        }
+    }
+]
