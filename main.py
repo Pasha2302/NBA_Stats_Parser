@@ -12,10 +12,11 @@ def main():
     proxy = None  # "ip:port"
     if os.path.isfile('my_proxy.txt'):
         proxy = toolbox.download_txt_data(path_file='my_proxy.txt').strip()
-    url_sofascore = 'https://www.sofascore.com/basketball/2023-02-17'  # Укажите URL Адресс для сбора Коэффициентов
+    url_sofascore = 'https://www.sofascore.com/basketball/2023-01-15'  # Укажите URL Адресс для сбора Коэффициентов
+    # url_sofascore = 'https://www.sofascore.com/basketball'  # Информация на сайте текущей даты.
 
     print("<<================== ...ИДЕТ СБОР ДАННЫХ ... ==================>>\n")
-    start_get_data_html(proxy)
+    # start_get_data_html(proxy)
     get_table_nba()
     start_pars_html_page_sofascore(url_sofascore, proxy)
     rewrite_names()

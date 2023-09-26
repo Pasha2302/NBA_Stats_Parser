@@ -41,6 +41,8 @@ def get_table_nba():
     list_name_files = os.listdir(path_result_html)
 
     for t, file_name in enumerate(list_name_files, start=1):
+        if '.html' not in file_name:
+            continue
         path_data = os.path.join(path_result_html, file_name)
         key_file_html = file_name.split('_', maxsplit=1)[0]
         print(f"- {toolbox.Style.GREEN}[{t}] {key_file_html}\033[0m")

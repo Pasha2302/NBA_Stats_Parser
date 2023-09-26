@@ -132,7 +132,10 @@ def search_blocks_teams_usa_nba():
 
     for tag_team in block_names_leagues:
         tag_text = tag_team.text.replace('\n', ' ').strip()
+        print(f"{tag_text}\n{'..' * 60}")
         if tag_text == text_name_league:
+            continue
+        if tag_text != league_search_name and not text_name_league:
             continue
 
         check_stop_class = tag_team.get_attribute('class')
