@@ -17,7 +17,7 @@ def main():
     # url_sofascore = 'https://www.sofascore.com/basketball'  # Информация на сайте текущей даты.
 
     print("<<================== ...ИДЕТ СБОР ДАННЫХ ... ==================>>\n")
-    # start_get_data_html(proxy)
+    start_get_data_html(proxy)
     get_table_nba()
     start_pars_html_page_sofascore(url_sofascore,tgb=tgb, proxy=proxy)
     rewrite_names()
