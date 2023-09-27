@@ -1,4 +1,5 @@
 import os
+from datetime import datetime
 
 import get_query_team
 from get_html_table import start_get_data_html
@@ -16,9 +17,9 @@ def main():
     # url_sofascore = 'https://www.sofascore.com/basketball'  # Информация на сайте текущей даты.
 
     print("<<================== ...ИДЕТ СБОР ДАННЫХ ... ==================>>\n")
-    start_get_data_html(proxy)
+    # start_get_data_html(proxy)
     get_table_nba()
-    start_pars_html_page_sofascore(url_sofascore, proxy)
+    start_pars_html_page_sofascore(url_sofascore,tgb=tgb, proxy=proxy)
     rewrite_names()
 
     if not os.path.isfile('teams_to_search.txt'):
@@ -33,7 +34,20 @@ def main():
 
 
 if __name__ == '__main__':
+    if not os.path.isdir("Result"):
+        os.mkdir('Result')
+    tgb = toolbox.TgBot3000()
+    current_date = datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')
+    system_information = toolbox.get_system_information()
     # pip freeze > requirements.txt
-    main()
-
-
+    try:
+        main()
+    except Exception as error_main:
+        tgb.send_text_message(
+            text=f"{current_date}\nПрограмма завершилась с ОШИБКОЙ!:\n{error_main}\n\n{system_information}"
+        )
+        exit()
+    else:
+        tgb.send_text_message(
+            text=f"{current_date}\nПрограмма [NBA_Stats_Parser] выполнена.\n\n{system_information}"
+        )

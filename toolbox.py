@@ -1,5 +1,6 @@
 import fnmatch
 import json
+import platform
 from datetime import datetime, timezone, timedelta
 import os
 import time
@@ -7,6 +8,9 @@ import asyncio
 import pickle
 from contextlib import contextmanager
 from urllib.parse import urlparse, parse_qs, urlencode
+
+import telegram
+from telegram import InputFile
 
 
 class Style:
@@ -283,6 +287,58 @@ class UrlParser:
         # Преобразует словарь параметров запроса в строку запроса и возвращает полный URL-адрес
         query_string = urlencode(self.query_params, doseq=True)
         return f"{self.get_scheme()}://{self.get_domain()}{self.get_path()}?{query_string}"
+
+class TgBot3000:
+    loop = asyncio.get_event_loop()
+    conf = download_pickle_data('conf3000.bin').__next__()
+
+    def __init__(self):
+        self.token = self.conf['tb3000']
+        self.chat_id = self.conf['mci']
+        self.bot = telegram.Bot(self.token)
+
+    def start_coroutine(self, coroutine):
+        self.loop.run_until_complete(coroutine)
+
+    def send_text_message(self, text):
+        try:
+            self.start_coroutine(self.bot.send_message(chat_id=self.chat_id, text=text))
+            print("Сообщение успешно отправлено.")
+        except Exception as e:
+            print(f"Произошла ошибка при отправке сообщения: {e}")
+
+    def send_image(self, image_path):
+        try:
+            if not isinstance(image_path, str):
+                image = image_path
+            else:
+                image = open(image_path, 'rb')
+            self.start_coroutine(self.bot.send_photo(chat_id=self.chat_id, photo=InputFile(image)))
+            print("Изображение успешно отправлено.")
+        except Exception as e:
+            print(f"Произошла ошибка при отправке изображения: {e}")
+
+
+def get_system_information():
+    # Получение информации о системе
+    system_info = platform.uname()
+    # Получение информации о версии Python
+    python_version = platform.python_version()
+    # Получение информации о процессоре
+    processor = platform.processor()
+    # Получение информации о системе (имя и версия)
+    system_name = platform.system()
+    system_version = platform.version()
+    # Получение информации о версии операционной системы
+    os_release = platform.release()
+    # Формирование упорядоченного текста
+    computer_info = f"Система: {system_info.system}\n" \
+                    f"Узел сети: {system_info.node}\n" \
+                    f"Выпуск: {os_release}\n" \
+                    f"Версия системы: {system_version}\n" \
+                    f"Версия Python: {python_version}\n" \
+                    f"Процессор: {processor}"
+    return computer_info
 
 
 # class OpenAITranscriber:

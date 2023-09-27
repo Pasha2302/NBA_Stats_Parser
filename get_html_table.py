@@ -27,4 +27,5 @@ def start_get_data_html(proxy=None):
         path_result_html_f = path_result_html.format(url_data['header'])
         toolbox.save_txt_data(data_txt=res, path_file=path_result_html_f)
         print('>', end='')
+    print()
     driver.quit()

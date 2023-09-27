@@ -1,1 +1,110 @@
-[]
+[
+    {
+        "home_team": {
+            "name": "Charlotte Hornets",
+            "coeff": null,
+            "team_id": "3430/"
+        },
+        "away_team": {
+            "name": "Boston Celtics",
+            "coeff": null,
+            "team_id": "3422/"
+        }
+    },
+    {
+        "home_team": {
+            "name": "Indiana Pacers",
+            "coeff": "3.75",
+            "team_id": "3419/"
+        },
+        "away_team": {
+            "name": "Memphis Grizzlies",
+            "coeff": "1.29",
+            "team_id": "3415/"
+        }
+    },
+    {
+        "home_team": {
+            "name": "Toronto Raptors",
+            "coeff": "1.34",
+            "team_id": "3433/"
+        },
+        "away_team": {
+            "name": "Atlanta Hawks",
+            "coeff": "3.35",
+            "team_id": "3423/"
+        }
+    },
+    {
+        "home_team": {
+            "name": "Minnesota Timberwolves",
+            "coeff": "2.60",
+            "team_id": "3426/"
+        },
+        "away_team": {
+            "name": "Cleveland Cavaliers",
+            "coeff": "1.56",
+            "team_id": "3432/"
+        }
+    },
+    {
+        "home_team": {
+            "name": "Utah Jazz",
+            "coeff": "3.40",
+            "team_id": "3434/"
+        },
+        "away_team": {
+            "name": "Philadelphia 76ers",
+            "coeff": "1.33",
+            "team_id": "3420/"
+        }
+    },
+    {
+        "home_team": {
+            "name": "Portland Trail Blazers",
+            "coeff": "1.71",
+            "team_id": "3414/"
+        },
+        "away_team": {
+            "name": "Dallas Mavericks",
+            "coeff": "2.20",
+            "team_id": "3411/"
+        }
+    },
+    {
+        "home_team": {
+            "name": "Detroit Pistons",
+            "coeff": "3.60",
+            "team_id": "3424/"
+        },
+        "away_team": {
+            "name": "New York Knicks",
+            "coeff": "1.31",
+            "team_id": "3421/"
+        }
+    },
+    {
+        "home_team": {
+            "name": "LA Clippers",
+            "coeff": "1.20",
+            "team_id": "3425/"
+        },
+        "away_team": {
+            "name": "Houston Rockets",
+            "coeff": "4.75",
+            "team_id": "3412/"
+        }
+    },
+    {
+        "home_team": {
+            "name": "Chicago Bulls",
+            "coeff": "2.80",
+            "team_id": "3409/"
+        },
+        "away_team": {
+            "name": "Golden State Warriors",
+            "coeff": "1.45",
+            "team_id": "3428/"
+        }
+    }
+]

@@ -40,7 +40,7 @@ def get_table_nba():
     header_keys = toolbox.download_json_data(path_file='header_keys.json')
     list_name_files = os.listdir(path_result_html)
 
-    for t, file_name in enumerate(list_name_files, start=1):
+    for t, file_name in enumerate(list_name_files, start=0):
         if '.html' not in file_name:
             continue
         path_data = os.path.join(path_result_html, file_name)

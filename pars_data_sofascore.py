@@ -1,5 +1,5 @@
-import os
 import re
+from io import BytesIO
 
 import toolbox
 from selenium.webdriver.chrome.webdriver import WebDriver
@@ -12,6 +12,7 @@ from bs4 import BeautifulSoup
 
 driver: None | WebDriver = None
 click_slider_is = False
+restart_driver = False
 
 
 def entrance_site(url_sofascore):
@@ -26,7 +27,8 @@ def entrance_site(url_sofascore):
                 check_dialog_button[0].click()
             try:
                 driver.find_element(By.CSS_SELECTOR, "span[class='slider']").click()
-                driver.refresh()
+                if not restart_driver:
+                    driver.refresh()
                 break
             except Exception as err2:
                 print(f"\n[entrance_site()]:\n{err2}")
@@ -132,7 +134,7 @@ def search_blocks_teams_usa_nba():
 
     for tag_team in block_names_leagues:
         tag_text = tag_team.text.replace('\n', ' ').strip()
-        print(f"{tag_text}\n{'..' * 60}")
+        # print(f"{tag_text}\n{'..' * 60}")
         if tag_text == text_name_league:
             continue
         if tag_text != league_search_name and not text_name_league:
@@ -165,24 +167,41 @@ def search_blocks_teams_usa_nba():
         print('--' * 60)
 
 
-def pars_html_page_sofascore(url_sofascore):
+def pars_html_page_sofascore(url_sofascore, tgb):
+    global driver
+    global click_slider_is
+    global restart_driver
+
+    count_error = 0
     while True:
         try:
             entrance_site(url_sofascore)
             search_blocks_teams_usa_nba()
             break
         except Exception as error:
+            count_error += 1
+            if count_error > 2:
+                driver.close()
+                driver = CustomChromeDriver().create_driver()
+                click_slider_is = False
+                restart_driver = True
+            if count_error > 10:
+                raise TypeError(str(error))
+
             error = str(error)
-            print(f"\n{toolbox.Style.YELLOW}[ pars_html_page_sofascore(): ]\n:"
-                  f"{error[:error.find('Stacktrace:')]}{toolbox.Style.END_SC}")
+            message_error = (f"\n{toolbox.Style.YELLOW}[ pars_html_page_sofascore(): ]\n:"
+                             f"{error[:error.find('Stacktrace:')]}{toolbox.Style.END_SC}")
+            screenshot = driver.get_screenshot_as_png()
+            error_photo = BytesIO(screenshot)
+            tgb.send_text_message(text=message_error)
+            tgb.send_image(error_photo)
+            print(message_error)
 
 
-def start_pars_html_page_sofascore(url_sofascore, proxy=None):
+def start_pars_html_page_sofascore(url_sofascore, tgb, proxy=None):
     global driver
     driver = CustomChromeDriver(proxy=proxy).create_driver()
     try:
-        pars_html_page_sofascore(url_sofascore)
-    except KeyboardInterrupt:
-        pass
+        pars_html_page_sofascore(url_sofascore, tgb=tgb)
     finally:
         driver.quit()

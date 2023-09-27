@@ -1,1 +1,110 @@
-[]
+[
+    {
+        "team_1": {
+            "name": "Charlotte Hornets",
+            "team_id": "3430/",
+            "five_results": "L,W,L,L,L"
+        },
+        "team_2": {
+            "name": "Boston Celtics",
+            "team_id": "3422/",
+            "five_results": "W,W,W,W,W"
+        }
+    },
+    {
+        "team_1": {
+            "name": "Indiana Pacers",
+            "team_id": "3419/",
+            "five_results": "L,W,W,L,L"
+        },
+        "team_2": {
+            "name": "Memphis Grizzlies",
+            "team_id": "3415/",
+            "five_results": "W,W,W,W,W"
+        }
+    },
+    {
+        "team_1": {
+            "name": "Toronto Raptors",
+            "team_id": "3433/",
+            "five_results": "L,L,W,W,W"
+        },
+        "team_2": {
+            "name": "Atlanta Hawks",
+            "team_id": "3423/",
+            "five_results": "W,L,W,L,W"
+        }
+    },
+    {
+        "team_1": {
+            "name": "Minnesota Timberwolves",
+            "team_id": "3426/",
+            "five_results": "W,W,W,L,W"
+        },
+        "team_2": {
+            "name": "Cleveland Cavaliers",
+            "team_id": "3432/",
+            "five_results": "W,L,W,L,W"
+        }
+    },
+    {
+        "team_1": {
+            "name": "Utah Jazz",
+            "team_id": "3434/",
+            "five_results": "W,L,L,W,W"
+        },
+        "team_2": {
+            "name": "Philadelphia 76ers",
+            "team_id": "3420/",
+            "five_results": "W,L,W,W,L"
+        }
+    },
+    {
+        "team_1": {
+            "name": "Portland Trail Blazers",
+            "team_id": "3414/",
+            "five_results": "L,L,L,L,L"
+        },
+        "team_2": {
+            "name": "Dallas Mavericks",
+            "team_id": "3411/",
+            "five_results": "L,W,L,L,W"
+        }
+    },
+    {
+        "team_1": {
+            "name": "Detroit Pistons",
+            "team_id": "3424/",
+            "five_results": "L,L,L,W,L"
+        },
+        "team_2": {
+            "name": "New York Knicks",
+            "team_id": "3421/",
+            "five_results": "W,W,L,W,W"
+        }
+    },
+    {
+        "team_1": {
+            "name": "LA Clippers",
+            "team_id": "3425/",
+            "five_results": "L,L,L,W,L"
+        },
+        "team_2": {
+            "name": "Houston Rockets",
+            "team_id": "3412/",
+            "five_results": "L,L,L,L,L"
+        }
+    },
+    {
+        "team_1": {
+            "name": "Chicago Bulls",
+            "team_id": "3409/",
+            "five_results": "W,W,L,L,L"
+        },
+        "team_2": {
+            "name": "Golden State Warriors",
+            "team_id": "3428/",
+            "five_results": "W,L,L,L,W"
+        }
+    }
+]
