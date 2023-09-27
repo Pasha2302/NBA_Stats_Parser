@@ -36,6 +36,8 @@ def main():
 if __name__ == '__main__':
     if not os.path.isdir("Result"):
         os.mkdir('Result')
+    if not os.path.isdir('HTML_Data_Table'):
+        os.mkdir('HTML_Data_Table')
     tgb = toolbox.TgBot3000()
     current_date = datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')
     system_information = toolbox.get_system_information()
