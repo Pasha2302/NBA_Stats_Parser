@@ -1,11 +1,13 @@
 import fnmatch
 import json
 import platform
+import types
 from datetime import datetime, timezone, timedelta
 import os
 import time
 import asyncio
 import pickle
+import traceback
 from contextlib import contextmanager
 from urllib.parse import urlparse, parse_qs, urlencode
 
@@ -141,7 +143,7 @@ def download_pickle_data(path_file):
 
 
 def add_work_days(current_date):
-    """Если текущая дата выподает на выходной возвращает ближайшую рабочую дату."""
+    """Если текущая дата выпадает на выходной, возвращает ближайшую рабочую дату."""
 
     # Преобразовываем переданную дату в объект datetime
     current_datetime = datetime.fromtimestamp(current_date)
@@ -174,7 +176,8 @@ def date_file(time_int):
     """Возвращает строку с датой и временем в формате '%d-%m-%Y_%H-%M-%S' для имени файла"""
     if time_int > 1670000000000:
         time_int = time_int // 1000
-    form_str = '%d-%m-%Y_%H-%M-%S'
+    # form_str = '%d-%m-%Y_%H-%M-%S'
+    form_str = '%Y-%m-%d %H:%M:%S.%f'
     return datetime.fromtimestamp(time_int).strftime(form_str)
 
 
@@ -288,9 +291,13 @@ class UrlParser:
         query_string = urlencode(self.query_params, doseq=True)
         return f"{self.get_scheme()}://{self.get_domain()}{self.get_path()}?{query_string}"
 
+
 class TgBot3000:
     loop = asyncio.get_event_loop()
-    conf = download_pickle_data('conf3000.bin').__next__()
+    try:
+        conf = download_pickle_data('conf3000.bin').__next__()
+    except FileNotFoundError:
+        conf = {}
 
     def __init__(self):
         self.token = self.conf['tb3000']
@@ -319,6 +326,56 @@ class TgBot3000:
             print(f"Произошла ошибка при отправке изображения: {e}")
 
 
+def error_handler(func: types.FunctionType):
+    def wrapper(*args, **kwargs):
+        try:
+            result = func(*args, **kwargs)
+            return result
+        except Exception as e:
+            traceback_info = traceback.extract_tb(e.__traceback__)[-1]
+            er = {
+                "error": f"{Style.RED}DATETIME: ({datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')})\n"
+                         f"FUNC NAME: [{func.__name__}]\n"
+                         f"PATH MODULE: [{func.__code__.co_filename}]\n"
+                         f"ERROR IN LINE: [{traceback_info.lineno}]\n"
+                         f"ERROR CODE STR: {traceback_info.line}\n"
+                         f"ARGUMENTS:\n\tpositional: {args}, named: {kwargs}\n"
+                         f"ERROR: {e}{Style.END_SC}",
+                "input_data": (args, kwargs)
+            }
+            print(er['error'])
+            return er
+    return wrapper
+
+
+def async_error_handler(func):
+    async def wrapper(*args, **kwargs):
+        try:
+            result = await func(*args, **kwargs)
+            return result
+        except Exception as e:
+            traceback_info = traceback.extract_tb(e.__traceback__)[-1]
+            er = {
+                "error": f"{Style.RED}DATETIME: ({datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')})\n"
+                         f"FUNC NAME: [{func.__name__}]\n"
+                         f"PATH MODULE: [{func.__code__.co_filename}]\n"
+                         f"ERROR IN LINE: [{traceback_info.lineno}]\n"
+                         f"ERROR CODE STR: {traceback_info.line}\n"
+                         f"ARGUMENTS:\n\tpositional: {args}, named: {kwargs}\n"
+                         f"ERROR: {e}{Style.END_SC}",
+                "input_data": (args, kwargs)
+            }
+            print(er['error'])
+            return er
+    return wrapper
+
+
+@error_handler
+def func_test():
+    return 7 / 0
+
+
+@error_handler
 def get_system_information():
     # Получение информации о системе
     system_info = platform.uname()
@@ -327,7 +384,7 @@ def get_system_information():
     # Получение информации о процессоре
     processor = platform.processor()
     # Получение информации о системе (имя и версия)
-    system_name = platform.system()
+    # system_name = platform.system()
     system_version = platform.version()
     # Получение информации о версии операционной системы
     os_release = platform.release()
@@ -353,29 +410,5 @@ def get_system_information():
 
 
 if __name__ == '__main__':
+    func_test()
     pass
-    # import openai
-    # import configparser
-    #
-    # config = configparser.ConfigParser()
-    # config.read("config_bot.ini")
-    # api_key_bot = config['TG_BOT']['API_KEY_BOT']
-    #
-    # transcriber = OpenAITranscriber(api_key=api_key_bot)
-    # transcript = transcriber.transcribe_audio(model="whisper-1", audio_path="audio.mp3")
-    # print(transcript)
-
-    # start_time = time.time()
-    # time.sleep(10)
-    # current_time = time.time()
-
-    # start_time = datetime(2023, 9, 1)
-    # current_time = datetime(2023, 9, 6)
-    #
-    # print(f"\n{start_time=}\n{current_time=}\n")
-    #
-    # time_d = TimeDelta(past_date=start_time, current_date=current_time)
-    # print(time_d)
-
-    # print(date_str(1681166436))
-    # print(date_str(int(time.time()) - 3600 * 3))

@@ -1,5 +1,5 @@
 import os
-from datetime import datetime
+import time
 
 import get_query_team
 from get_html_table import start_get_data_html
@@ -23,7 +23,7 @@ def main():
     rewrite_names()
 
     if not os.path.isfile('teams_to_search.txt'):
-        print('\nКоманды Для Поиска Не Найдены ...')
+        print(f'\n{toolbox.Style.RED}Команды Для Поиска Не Найдены ...{toolbox.Style.END_SC}')
         return 0
 
     data_names = toolbox.download_txt_data(path_file='teams_to_search.txt')
@@ -34,14 +34,16 @@ def main():
 
 
 if __name__ == '__main__':
+    # pip freeze > requirements.txt
+
     if not os.path.isdir("Result"):
         os.mkdir('Result')
     if not os.path.isdir('HTML_Data_Table'):
         os.mkdir('HTML_Data_Table')
     tgb = toolbox.TgBot3000()
-    current_date = datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')
+    current_date = toolbox.date_file(time_int=time.time())
     system_information = toolbox.get_system_information()
-    # pip freeze > requirements.txt
+
     try:
         main()
     except Exception as error_main:
