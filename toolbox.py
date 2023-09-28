@@ -371,11 +371,6 @@ def async_error_handler(func):
 
 
 @error_handler
-def func_test():
-    return 7 / 0
-
-
-@error_handler
 def get_system_information():
     # Получение информации о системе
     system_info = platform.uname()
@@ -410,5 +405,4 @@ def get_system_information():
 
 
 if __name__ == '__main__':
-    func_test()
     pass

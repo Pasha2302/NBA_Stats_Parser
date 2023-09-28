@@ -31,6 +31,7 @@ class CustomChromeDriver:
         if self.path_data_dir:
             # Путь к директории с данными профиля пользователя (закомментировано)
             chrome_options.add_argument(f"user-data-dir={self.path_data_dir}")
+
         # chrome_options.add_argument("--headless")  # Запуск браузера в режиме без интерфейса (закомментировано)
         chrome_options.page_load_strategy = 'normal'  # 'eager' ,  'none', 'normal'
 
