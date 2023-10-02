@@ -1,7 +1,11 @@
 import fnmatch
 import json
+import logging
 import platform
 import types
+
+import http.client
+
 from datetime import datetime, timezone, timedelta
 import os
 import time
@@ -11,8 +15,74 @@ import traceback
 from contextlib import contextmanager
 from urllib.parse import urlparse, parse_qs, urlencode
 
-import telegram
-from telegram import InputFile
+# import aiohttp
+
+
+def split_list(lst: list, n: int):
+    """
+    Функция разбивает список на указанное значение [n] и возвращает срезы.
+        :param lst: Список объектов.
+        :param n: Количество объектов в возвращаемом срезе списка
+    """
+    for i in range(0, len(lst), n):
+        yield lst[i:i + n]
+
+
+# class AiohttpSession:
+#     def __init__(self, limit=22, ssl=False, total=320, sock_connect=160, sock_read=160, trust_env=False, logger=None):
+#         """
+#         Конструктор класса AiohttpSession.
+#
+#         :param limit: Максимальное количество одновременных соединений
+#         :param ssl: использовать ли SSL-шифрование для соединений
+#         :param total: общее время ожидания для HTTP-запросов
+#         :param sock_connect: время ожидания соединения с сервером
+#         :param sock_read: время ожидания ответа от сервера
+#         :param trust_env: использовать ли значения настроек из системных переменных окружения
+#         :param logger: объект логгера для записи сообщений
+#         ---------------------------------------------------------------------------------------
+#         Обработка ошибок: добавлен объект logger, который можно использовать для записи сообщений о возникших ошибках и
+#         проблемах. При возникновении исключений можно использовать методы
+#         logger.exception() или logger.error() для записи соответствующей информации в лог.
+#         """
+#         self.limit = limit
+#         self.ssl = ssl
+#         self.total = total
+#         self.sock_connect = sock_connect
+#         self.sock_read = sock_read
+#         self.trust_env = trust_env
+#         self.logger = logger or logging.getLogger(__name__)
+#
+#     async def create_session(self) -> aiohttp.client.ClientSession:
+#         """
+#         Создает объект сессии для выполнения HTTP-запросов.
+#         :return: Объект ClientSession
+#         """
+#         conn = aiohttp.TCPConnector(
+#             limit=self.limit,
+#             ssl=self.ssl,
+#             enable_cleanup_closed=True,  # включить очистку закрытых соединений
+#             # keepalive_timeout=120, # время жизни соединения в секундах
+#         )
+#
+#         timeout = aiohttp.ClientTimeout(
+#             total=self.total,
+#             sock_connect=self.sock_connect,
+#             sock_read=self.sock_read
+#         )
+#
+#         cookie_jar = aiohttp.CookieJar()  # инициализация объекта для хранения кук
+#
+#         session = aiohttp.ClientSession(
+#             connector=conn,
+#             timeout=timeout,
+#             trust_env=self.trust_env,
+#             cookie_jar=cookie_jar
+#         )
+#
+#         self.logger.debug("Создан новый объект ClientSession")
+#
+#         return session
 
 
 class Style:
@@ -292,85 +362,6 @@ class UrlParser:
         return f"{self.get_scheme()}://{self.get_domain()}{self.get_path()}?{query_string}"
 
 
-class TgBot3000:
-    loop = asyncio.get_event_loop()
-    try:
-        conf = download_pickle_data('conf3000.bin').__next__()
-    except FileNotFoundError:
-        conf = {}
-
-    def __init__(self):
-        self.token = self.conf['tb3000']
-        self.chat_id = self.conf['mci']
-        self.bot = telegram.Bot(self.token)
-
-    def start_coroutine(self, coroutine):
-        self.loop.run_until_complete(coroutine)
-
-    def send_text_message(self, text):
-        try:
-            self.start_coroutine(self.bot.send_message(chat_id=self.chat_id, text=text))
-            print("Сообщение успешно отправлено.")
-        except Exception as e:
-            print(f"Произошла ошибка при отправке сообщения: {e}")
-
-    def send_image(self, image_path):
-        try:
-            if not isinstance(image_path, str):
-                image = image_path
-            else:
-                image = open(image_path, 'rb')
-            self.start_coroutine(self.bot.send_photo(chat_id=self.chat_id, photo=InputFile(image)))
-            print("Изображение успешно отправлено.")
-        except Exception as e:
-            print(f"Произошла ошибка при отправке изображения: {e}")
-
-
-def error_handler(func: types.FunctionType):
-    def wrapper(*args, **kwargs):
-        try:
-            result = func(*args, **kwargs)
-            return result
-        except Exception as e:
-            traceback_info = traceback.extract_tb(e.__traceback__)[-1]
-            er = {
-                "error": f"{Style.RED}DATETIME: ({datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')})\n"
-                         f"FUNC NAME: [{func.__name__}]\n"
-                         f"PATH MODULE: [{func.__code__.co_filename}]\n"
-                         f"ERROR IN LINE: [{traceback_info.lineno}]\n"
-                         f"ERROR CODE STR: {traceback_info.line}\n"
-                         f"ARGUMENTS:\n\tpositional: {args}, named: {kwargs}\n"
-                         f"ERROR: {e}{Style.END_SC}",
-                "input_data": (args, kwargs)
-            }
-            print(er['error'])
-            return er
-    return wrapper
-
-
-def async_error_handler(func):
-    async def wrapper(*args, **kwargs):
-        try:
-            result = await func(*args, **kwargs)
-            return result
-        except Exception as e:
-            traceback_info = traceback.extract_tb(e.__traceback__)[-1]
-            er = {
-                "error": f"{Style.RED}DATETIME: ({datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')})\n"
-                         f"FUNC NAME: [{func.__name__}]\n"
-                         f"PATH MODULE: [{func.__code__.co_filename}]\n"
-                         f"ERROR IN LINE: [{traceback_info.lineno}]\n"
-                         f"ERROR CODE STR: {traceback_info.line}\n"
-                         f"ARGUMENTS:\n\tpositional: {args}, named: {kwargs}\n"
-                         f"ERROR: {e}{Style.END_SC}",
-                "input_data": (args, kwargs)
-            }
-            print(er['error'])
-            return er
-    return wrapper
-
-
-@error_handler
 def get_system_information():
     # Получение информации о системе
     system_info = platform.uname()
@@ -393,6 +384,169 @@ def get_system_information():
     return computer_info
 
 
+class TgBot3000:
+    try:
+        conf = download_pickle_data('/home/pavelpc/conf3000.bin').__next__()
+    except FileNotFoundError:
+        conf = {}
+    def __init__(self):
+        self.token = self.conf['tb3000']
+        self.chat_id = self.conf['mci']
+        self.base_url = f"https://api.telegram.org/bot{self.token}/"
+
+    def send_message(self, text):
+        method = "sendMessage"
+        url = f"{self.base_url}{method}"
+        data = {
+            "chat_id": self.chat_id,
+            "text": text
+        }
+        self._send_request(url, data)
+
+    def send_photo(self, photo_bytes=b'', photo_path='', caption=None):
+        """
+        Отправляет изображение в чат.
+            :photo_path (str): Путь к изображению на локальном компьютере.
+            :caption (str, опционально): Подпись к изображению.
+
+        Возвращает:
+        dict: Ответ от Telegram API в виде словаря.
+        """
+
+        photo = photo_bytes
+        if photo_path:
+            photo = photo_path
+
+        method = "sendPhoto"
+        url = f"{self.base_url}{method}"
+        data = {
+            "chat_id": self.chat_id,
+        }
+        if caption:
+            data["caption"] = caption
+        self._send_multipart_request(url, data, photo)
+
+    @staticmethod
+    def _send_request(url, data):
+        encoded_data = urlencode(data)
+        encoded_data = encoded_data.encode("utf-8")
+        headers = {
+            "Content-Type": "application/x-www-form-urlencoded",
+            "Content-Length": len(encoded_data)
+        }
+        conn = http.client.HTTPSConnection("api.telegram.org")
+        conn.request("POST", url, body=encoded_data, headers=headers)
+        response = conn.getresponse()
+        response_data = response.read()
+        conn.close()
+        return json.loads(response_data.decode("utf-8"))
+
+    def _send_multipart_request(self, url, data, photo):
+        boundary = "----Boundary"
+        data["boundary"] = boundary
+        body = self._create_multipart_body(data, photo, boundary)
+        headers = {
+            "Content-Type": f"multipart/form-data; boundary={boundary}"
+        }
+        conn = http.client.HTTPSConnection("api.telegram.org")
+        conn.request("POST", url, body=body, headers=headers)
+        response = conn.getresponse()
+        response_data = response.read()
+        conn.close()
+        return json.loads(response_data.decode("utf-8"))
+
+    @staticmethod
+    def _create_multipart_body(data, photo, boundary):
+        body = []
+        if isinstance(photo, bytes):
+            file_path = "error.png"
+        else:
+            file_path = photo
+        for key, value in data.items():
+            body.append(f"--{boundary}".encode("utf-8"))  # Преобразуйте в байты
+            body.append(f'Content-Disposition: form-data; name="{key}"'.encode("utf-8"))  # Преобразуйте в байты
+            body.append(b"")  # Пустая строка в байтах
+            body.append(value.encode("utf-8"))  # Преобразуйте в байты
+        body.append(f"--{boundary}".encode("utf-8"))  # Преобразуйте в байты
+        body.append(f'Content-Disposition: form-data; name="photo"; filename="{file_path}"'.encode("utf-8"))
+        body.append(b"Content-Type: application/octet-stream")  # Преобразуйте в байты
+        body.append(b"")  # Пустая строка в байтах
+
+        if isinstance(photo, bytes):
+            body.append(photo)
+        else:
+            with open(photo, "rb") as file:
+                body.append(file.read())
+        body.append(f"--{boundary}--".encode("utf-8"))  # Преобразуйте в байты
+        body.append(b"")  # Пустая строка в байтах
+        return b"\r\n".join(body)  # Преобразуйте в байты
+
+
+def format_error_from_handler(dict_error_handler):
+    data_error = dict_error_handler['error']
+
+    str_info_error = (f"DATETIME: {data_error['DATETIME']}\n"
+                      f"FUNC_NAME: {data_error['FUNC_NAME']}\n"
+                      f"PATH_MODULE: {data_error['PATH_MODULE']}\n"
+                      f"ERROR_IN_LINE: {data_error['ERROR_IN_LINE']}\n"
+                      f"ERROR_CODE_STR: {data_error['ERROR_CODE_STR']}\n"
+                      f"ARGUMENTS: {data_error['ARGUMENTS']}\n"
+                      f"ERROR: {data_error['ERROR']}\n\n"
+                      f"input_data: {dict_error_handler['input_data']}\n\n"
+                      f"sys_info: {dict_error_handler['sys_info']}").strip()
+    return str_info_error
+
+
+def error_handler(func: types.FunctionType):
+    def wrapper(*args, **kwargs):
+        try:
+            result = func(*args, **kwargs)
+            return result
+        except Exception as e:
+            traceback_info = traceback.extract_tb(e.__traceback__)[-1]
+            er = {
+                "error": {
+                    "DATETIME": datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f'),
+                    "FUNC_NAME": func.__name__,
+                    "PATH_MODULE": func.__code__.co_filename,
+                    "ERROR_IN_LINE": traceback_info.lineno,
+                    "ERROR_CODE_STR": traceback_info.line,
+                    "ARGUMENTS": f"positional: {args}, named: {kwargs}",
+                    f"ERROR": str(e)},
+
+                "input_data": {"ARGS": list(args), "KWARGS": kwargs},
+                "sys_info": get_system_information()
+            }
+            print(f"{Style.RED}{er['error']}{Style.END_SC}")
+            return er
+    return wrapper
+
+
+def async_error_handler(func):
+    async def wrapper(*args, **kwargs):
+        try:
+            result = await func(*args, **kwargs)
+            return result
+        except Exception as e:
+            traceback_info = traceback.extract_tb(e.__traceback__)[-1]
+            er = {
+                "error": {
+                    "DATETIME": datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f'),
+                    "FUNC_NAME": func.__name__,
+                    "PATH_MODULE": func.__code__.co_filename,
+                    "ERROR_IN_LINE": traceback_info.lineno,
+                    "ERROR_CODE_STR": traceback_info.line,
+                    "ARGUMENTS": f"positional: {args}, named: {kwargs}",
+                    f"ERROR": str(e)},
+
+                "input_data": {"ARGS": list(args), "KWARGS": kwargs},
+                "sys_info": get_system_information()
+            }
+            print(f"{Style.RED}{er['error']}{Style.END_SC}")
+            return er
+    return wrapper
+
+
 # class OpenAITranscriber:
 #     def __init__(self, api_key):
 #         self.api_key = api_key
@@ -406,3 +560,13 @@ def get_system_information():
 
 if __name__ == '__main__':
     pass
+    # bot = TgBot3000()
+    #
+    # # Отправка сообщения
+    # message_text = "Привет, мир!"
+    # bot.send_message(message_text)
+    #
+    # # Отправка изображения
+    # photo_path = "110600528.jpeg"  # Укажите путь к изображению
+    # photo_caption = "Красивый пейзаж"
+    # bot.send_photo(photo_path, photo_caption)

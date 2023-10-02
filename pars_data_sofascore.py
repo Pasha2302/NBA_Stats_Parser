@@ -189,13 +189,13 @@ def pars_html_page_sofascore(url_sofascore, tgb):
                 raise TypeError(str(error))
 
             error = str(error)
-            message_error = (f"\n{toolbox.Style.YELLOW}[ pars_html_page_sofascore(): ]\n:"
-                             f"{error[:error.find('Stacktrace:')]}{toolbox.Style.END_SC}")
-            screenshot = driver.get_screenshot_as_png()
-            error_photo = BytesIO(screenshot)
-            tgb.send_text_message(text=message_error)
-            tgb.send_image(error_photo)
-            print(message_error)
+            message_error = (f"\n[ pars_html_page_sofascore(): ]\n:"
+                             f"{error[:error.find('Stacktrace:')]}")
+            error_photo = driver.get_screenshot_as_png()
+            # error_photo = BytesIO(screenshot)
+            tgb.send_message(text=message_error)
+            tgb.send_photo(photo_bytes=error_photo)
+            print(f"{toolbox.Style.YELLOW}{message_error}{toolbox.Style.END_SC}")
 
 
 def start_pars_html_page_sofascore(url_sofascore, tgb, proxy=None):

@@ -47,11 +47,11 @@ if __name__ == '__main__':
     try:
         main()
     except Exception as error_main:
-        tgb.send_text_message(
+        tgb.send_message(
             text=f"{current_date}\nПрограмма завершилась с ОШИБКОЙ!:\n{error_main}\n\n{system_information}"
         )
         exit()
     else:
-        tgb.send_text_message(
+        tgb.send_message(
             text=f"{current_date}\nПрограмма [NBA_Stats_Parser] выполнена.\n\n{system_information}"
         )
